@@ -1,0 +1,6 @@
+{
+    ["tool_target_test.out_linux_x86_64_cxx"] = {
+        program = "g++",
+        toolname = "gxx"
+    }
+}

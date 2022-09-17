@@ -1,0 +1,24 @@
+{
+    modules = {
+        ["test.out/c++.build.modules.builder"] = {
+            ["build/.objs/test.out/linux/x86_64/release/src/fraction.mpp.o"] = {
+                provides = {
+                    fraction = {
+                        bmi = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
+                        sourcefile = "src/fraction.mpp"
+                    }
+                }
+            },
+            ["build/.objs/test.out/linux/x86_64/release/src/test.cpp.o"] = {
+                cppfile = "src/test.cpp",
+                requires = {
+                    fraction = {
+                        unique = false,
+                        path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
+                        method = "by-name"
+                    }
+                }
+            }
+        }
+    }
+}
