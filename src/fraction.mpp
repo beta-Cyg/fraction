@@ -1,13 +1,11 @@
-module;
-
-#include<ratio>
-#include<cstdint>
-#include<numeric>
-#include<concepts>
-#include<iostream>
-#include<algorithm>
-
 export module fraction;
+
+import <ratio>;
+import <cstdint>;
+import <numeric>;
+import <concepts>;
+import <iostream>;
+import <algorithm>;
 
 /*
 frt::fraction::fraction(a,b) requires a and b have the same type

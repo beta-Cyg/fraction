@@ -7,15 +7,52 @@
                         bmi = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
                         sourcefile = "src/fraction.mpp"
                     }
+                },
+                requires = {
+                    iostream = {
+                        path = "/usr/include/c++/12.2.0/iostream",
+                        method = "include-angle",
+                        unique = true
+                    },
+                    ratio = {
+                        path = "/usr/include/c++/12.2.0/ratio",
+                        method = "include-angle",
+                        unique = true
+                    },
+                    algorithm = {
+                        path = "/usr/include/c++/12.2.0/algorithm",
+                        method = "include-angle",
+                        unique = true
+                    },
+                    cstdint = {
+                        path = "/usr/include/c++/12.2.0/cstdint",
+                        method = "include-angle",
+                        unique = true
+                    },
+                    numeric = {
+                        path = "/usr/include/c++/12.2.0/numeric",
+                        method = "include-angle",
+                        unique = true
+                    },
+                    concepts = {
+                        path = "/usr/include/c++/12.2.0/concepts",
+                        method = "include-angle",
+                        unique = true
+                    }
                 }
             },
             ["build/.objs/test.out/linux/x86_64/release/src/test.cpp.o"] = {
                 cppfile = "src/test.cpp",
                 requires = {
+                    iostream = {
+                        path = "/usr/include/c++/12.2.0/iostream",
+                        method = "include-angle",
+                        unique = true
+                    },
                     fraction = {
-                        unique = false,
                         path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
-                        method = "by-name"
+                        method = "by-name",
+                        unique = false
                     }
                 }
             }

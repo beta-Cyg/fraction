@@ -1,10 +1,5 @@
 set_languages("c++20")
-set_toolset("cxx","g++")
 
 target("test.out")
 	set_kind("binary")
 	add_files("src/*.mpp","src/*.cpp")
-	on_clean(function(target)
-		--os.rm("gcm.cache/")
-		os.rm("build/")
-	end)
