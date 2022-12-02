@@ -9,34 +9,34 @@
                     }
                 },
                 requires = {
-                    iostream = {
-                        path = "/usr/include/c++/12.2.0/iostream",
+                    cstdint = {
                         method = "include-angle",
-                        unique = true
-                    },
-                    ratio = {
-                        path = "/usr/include/c++/12.2.0/ratio",
-                        method = "include-angle",
+                        path = "/usr/include/c++/11/cstdint",
                         unique = true
                     },
                     algorithm = {
-                        path = "/usr/include/c++/12.2.0/algorithm",
                         method = "include-angle",
+                        path = "/usr/include/c++/11/algorithm",
                         unique = true
                     },
-                    cstdint = {
-                        path = "/usr/include/c++/12.2.0/cstdint",
+                    iostream = {
                         method = "include-angle",
+                        path = "/usr/include/c++/11/iostream",
                         unique = true
                     },
-                    numeric = {
-                        path = "/usr/include/c++/12.2.0/numeric",
+                    ratio = {
                         method = "include-angle",
+                        path = "/usr/include/c++/11/ratio",
                         unique = true
                     },
                     concepts = {
-                        path = "/usr/include/c++/12.2.0/concepts",
                         method = "include-angle",
+                        path = "/usr/include/c++/11/concepts",
+                        unique = true
+                    },
+                    numeric = {
+                        method = "include-angle",
+                        path = "/usr/include/c++/11/numeric",
                         unique = true
                     }
                 }
@@ -44,15 +44,15 @@
             ["build/.objs/test.out/linux/x86_64/release/src/test.cpp.o"] = {
                 cppfile = "src/test.cpp",
                 requires = {
-                    iostream = {
-                        path = "/usr/include/c++/12.2.0/iostream",
-                        method = "include-angle",
-                        unique = true
-                    },
                     fraction = {
-                        path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
                         method = "by-name",
+                        path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
                         unique = false
+                    },
+                    iostream = {
+                        method = "include-angle",
+                        path = "/usr/include/c++/11/iostream",
+                        unique = true
                     }
                 }
             }
