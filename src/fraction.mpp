@@ -56,7 +56,7 @@ export namespace frt{
 
 		fraction(const integer& Num):numerator(Num),denominator(1){}
 
-		template<std::integral T>
+		template<std::signed_integral T>
 		requires std::constructible_from<integer,T>
 		fraction(const fraction<T>& f):numerator(f.dividend()),denominator(f.divisor()){}
 
@@ -158,13 +158,13 @@ export namespace frt{
 			return ((long double)dividend())/divisor();
 		}
 
-		template<typename Integer>
+		template<std::signed_integral Integer>
 		friend void reduce(fraction<Integer>& f);
 	};
 
-	template<typename Integer>
+	template<std::signed_integral Integer>
 	void reduce(fraction<Integer>& f){
-		f=f.reduce();
+		if(not f.simple())f=f.reduce();
 	}
 
 	fraction() -> fraction<int32_t>;
@@ -179,7 +179,7 @@ export namespace frt{
 export
 template<typename integer>
 std::ostream& operator<<(std::ostream& out,frt::fraction<integer> f){
-	if(not f.simple())frt::reduce(f);
+	frt::reduce(f);
 	if(f.divisor()==1){
 		out<<f.dividend();
 		return out;
