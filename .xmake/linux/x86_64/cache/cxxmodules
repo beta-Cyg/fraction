@@ -1,58 +1,59 @@
 {
     modules = {
         ["test.out/c++.build.modules.builder"] = {
-            ["build/.objs/test.out/linux/x86_64/release/src/fraction.mpp.o"] = {
-                provides = {
-                    fraction = {
-                        bmi = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
-                        sourcefile = "src/fraction.mpp"
-                    }
-                },
-                requires = {
-                    cstdint = {
-                        method = "include-angle",
-                        path = "/usr/include/c++/11/cstdint",
-                        unique = true
-                    },
-                    algorithm = {
-                        method = "include-angle",
-                        path = "/usr/include/c++/11/algorithm",
-                        unique = true
-                    },
-                    iostream = {
-                        method = "include-angle",
-                        path = "/usr/include/c++/11/iostream",
-                        unique = true
-                    },
-                    ratio = {
-                        method = "include-angle",
-                        path = "/usr/include/c++/11/ratio",
-                        unique = true
-                    },
-                    concepts = {
-                        method = "include-angle",
-                        path = "/usr/include/c++/11/concepts",
-                        unique = true
-                    },
-                    numeric = {
-                        method = "include-angle",
-                        path = "/usr/include/c++/11/numeric",
-                        unique = true
-                    }
-                }
-            },
             ["build/.objs/test.out/linux/x86_64/release/src/test.cpp.o"] = {
                 cppfile = "src/test.cpp",
                 requires = {
                     fraction = {
+                        unique = false,
                         method = "by-name",
-                        path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/fraction.gcm",
-                        unique = false
+                        path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/d901839a/fraction.gcm"
                     },
                     iostream = {
+                        unique = true,
                         method = "include-angle",
-                        path = "/usr/include/c++/11/iostream",
-                        unique = true
+                        path = "/usr/include/c++/12/iostream"
+                    }
+                }
+            },
+            ["build/.objs/test.out/linux/x86_64/release/src/fraction.mpp.o"] = {
+                provides = {
+                    fraction = {
+                        bmi = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/d901839a/fraction.gcm",
+                        sourcefile = "src/fraction.mpp",
+                        interface = true
+                    }
+                },
+                requires = {
+                    numeric = {
+                        unique = true,
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/numeric"
+                    },
+                    iostream = {
+                        unique = true,
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/iostream"
+                    },
+                    concepts = {
+                        unique = true,
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/concepts"
+                    },
+                    ratio = {
+                        unique = true,
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/ratio"
+                    },
+                    algorithm = {
+                        unique = true,
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/algorithm"
+                    },
+                    cstdint = {
+                        unique = true,
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/cstdint"
                     }
                 }
             }

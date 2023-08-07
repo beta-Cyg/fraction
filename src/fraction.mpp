@@ -16,10 +16,14 @@ export namespace frt{
 	class fraction{
 	private:
 		integer numerator,denominator;
+	public:
+		bool simple()const{
+			return std::gcd(numerator,denominator)==1;
+		}
 	private:
 		fraction reduce()const{
 			auto f=*this;
-			if(f.numerator==1 or f.denominator==1)return f;
+			if(f.simple())return f;
 			if(f.numerator==0){
 				f.denominator=1;
 				return f;
@@ -52,6 +56,10 @@ export namespace frt{
 
 		fraction(const integer& Num):numerator(Num),denominator(1){}
 
+		template<std::integral T>
+		requires std::constructible_from<integer,T>
+		fraction(const fraction<T>& f):numerator(f.dividend()),denominator(f.divisor()){}
+
 		template<intmax_t num,intmax_t den>
 		fraction(const std::ratio<num,den>& r):numerator(num),denominator(den){}
 
@@ -64,7 +72,9 @@ export namespace frt{
 		fraction& operator=(const fraction& f){
 			numerator=f.numerator;
 			denominator=f.denominator;
-			*this=reduce();
+			auto tmp=reduce();
+			numerator=tmp.numerator;
+			denominator=tmp.denominator;
 			return *this;
 		}
 
@@ -128,6 +138,22 @@ export namespace frt{
 			return result.reduce();
 		}
 
+		fraction& operator+=(const fraction& f){
+			return *this=*this+f;
+		}
+
+		fraction& operator-=(const fraction& f){
+			return *this=*this-f;
+		}
+
+		fraction& operator*=(const fraction& f){
+			return *this=*this*f;
+		}
+
+		fraction& operator/=(const fraction& f){
+			return *this=*this/f;
+		}
+
 		operator long double()const{
 			return ((long double)dividend())/divisor();
 		}
@@ -152,12 +178,13 @@ export namespace frt{
 
 export
 template<typename integer>
-std::ostream& operator<<(std::ostream& out,const frt::fraction<integer>& f){
+std::ostream& operator<<(std::ostream& out,frt::fraction<integer> f){
+	if(not f.simple())frt::reduce(f);
 	if(f.divisor()==1){
 		out<<f.dividend();
 		return out;
 	}
 	if(not f.positive())out<<"-";
-	out<<f.dividend()<<'/'<<f.divisor();
+	out<<std::abs(f.dividend())<<'/'<<std::abs(f.divisor());
 	return out;
 }

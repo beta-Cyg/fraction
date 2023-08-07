@@ -1,2 +1,2 @@
 # fraction
-a fraction class on C++
+a fraction class based on C++
