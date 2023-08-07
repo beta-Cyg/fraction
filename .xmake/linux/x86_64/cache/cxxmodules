@@ -5,14 +5,14 @@
                 cppfile = "src/test.cpp",
                 requires = {
                     fraction = {
-                        unique = false,
                         method = "by-name",
-                        path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/d901839a/fraction.gcm"
+                        path = "build/.gens/test.out/linux/x86_64/release/rules/modules/cache/d901839a/fraction.gcm",
+                        unique = false
                     },
                     iostream = {
-                        unique = true,
                         method = "include-angle",
-                        path = "/usr/include/c++/12/iostream"
+                        path = "/usr/include/c++/12/iostream",
+                        unique = true
                     }
                 }
             },
@@ -25,35 +25,35 @@
                     }
                 },
                 requires = {
-                    numeric = {
-                        unique = true,
+                    ratio = {
                         method = "include-angle",
-                        path = "/usr/include/c++/12/numeric"
-                    },
-                    iostream = {
-                        unique = true,
-                        method = "include-angle",
-                        path = "/usr/include/c++/12/iostream"
+                        path = "/usr/include/c++/12/ratio",
+                        unique = true
                     },
                     concepts = {
-                        unique = true,
                         method = "include-angle",
-                        path = "/usr/include/c++/12/concepts"
-                    },
-                    ratio = {
-                        unique = true,
-                        method = "include-angle",
-                        path = "/usr/include/c++/12/ratio"
-                    },
-                    algorithm = {
-                        unique = true,
-                        method = "include-angle",
-                        path = "/usr/include/c++/12/algorithm"
+                        path = "/usr/include/c++/12/concepts",
+                        unique = true
                     },
                     cstdint = {
-                        unique = true,
                         method = "include-angle",
-                        path = "/usr/include/c++/12/cstdint"
+                        path = "/usr/include/c++/12/cstdint",
+                        unique = true
+                    },
+                    numeric = {
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/numeric",
+                        unique = true
+                    },
+                    algorithm = {
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/algorithm",
+                        unique = true
+                    },
+                    iostream = {
+                        method = "include-angle",
+                        path = "/usr/include/c++/12/iostream",
+                        unique = true
                     }
                 }
             }
