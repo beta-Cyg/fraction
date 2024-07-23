@@ -1,22 +1,22 @@
 {
-    ["tool_target_test.out_linux_x86_64_cxx"] = {
+    tool_target_test_linux_x86_64_cxx = {
         toolname = "gcc",
+        program = "/usr/bin/gcc-13",
         toolchain_info = {
-            plat = "linux",
-            cachekey = "gcc_arch_x86_64_plat_linux",
             arch = "x86_64",
-            name = "gcc"
-        },
-        program = "/usr/bin/gcc"
+            name = "gcc-13",
+            cachekey = "gcc-13_arch_x86_64_plat_linux",
+            plat = "linux"
+        }
     },
-    ["tool_target_test.out_linux_x86_64_ld"] = {
+    tool_target_test_linux_x86_64_ld = {
         toolname = "gxx",
+        program = "/usr/bin/g++-13",
         toolchain_info = {
-            plat = "linux",
-            cachekey = "gcc_arch_x86_64_plat_linux",
             arch = "x86_64",
-            name = "gcc"
-        },
-        program = "/usr/bin/g++"
+            name = "gcc-13",
+            cachekey = "gcc-13_arch_x86_64_plat_linux",
+            plat = "linux"
+        }
     }
 }

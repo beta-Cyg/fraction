@@ -14,13 +14,13 @@ frt::fraction::fraction(a,b) requires a and b have the same type
 export namespace frt{
 	template<std::signed_integral integer>
 	class fraction{
-	private:
-		integer numerator,denominator;
 	public:
+		integer numerator,denominator;
+
 		bool simple()const{
-			return std::gcd(numerator,denominator)==1;
+			return std::gcd(numerator,denominator)==1 and denominator>0;
 		}
-	private:
+
 		fraction reduce()const{
 			auto f=*this;
 			if(f.simple())return f;
@@ -35,9 +35,9 @@ export namespace frt{
 			f.numerator=std::abs(f.numerator);
 			f.denominator=std::abs(f.denominator);
 			if(negative)f.numerator*=-1;
-			return f;
+			return std::move(f);
 		}
-
+	private:
 		std::pair<fraction,fraction> pass(const fraction& f)const{
 			if(denominator==f.denominator)return std::make_pair(*this,f);
 			auto tthis=reduce();
@@ -47,46 +47,72 @@ export namespace frt{
 			tthis.numerator*=tf.denominator/Gcd;
 			tf.numerator*=tthis.denominator/Gcd;
 			tthis.denominator=tf.denominator=publicDe;
-			return std::make_pair(tthis,tf);
+			return {tthis,tf};
 		}
 	public:
 		fraction():numerator(0),denominator(1){}
 
-		fraction(const integer& Nu,const integer& De):numerator(Nu),denominator(De){}
+		explicit fraction(const integer& Nu,const integer& De):numerator(Nu),denominator(De){}
 
 		fraction(const integer& Num):numerator(Num),denominator(1){}
+
+		fraction(integer&& Num):numerator(Num),denominator(1){Num=0;}
 
 		template<std::signed_integral T>
 		requires std::constructible_from<integer,T>
 		fraction(const fraction<T>& f):numerator(f.dividend()),denominator(f.divisor()){}
 
 		template<intmax_t num,intmax_t den>
-		fraction(const std::ratio<num,den>& r):numerator(num),denominator(den){}
+		fraction(const std::ratio<num,den>& r):numerator(num),denominator(den){
+			if(not simple())*this=reduce();
+		}
 
-		integer divisor/*denominator*/()const{auto f=reduce();return f.denominator;}
+		integer divisor/*denominator*/()const{const auto& f=simple()?reduce():*this;return f.denominator;}
 
-		integer dividend/*numerator*/()const{auto f=reduce();return f.numerator;}
+		integer dividend/*numerator*/()const{const auto& f=simple()?reduce():*this;return f.numerator;}
 
-		bool positive()const{auto f=reduce();return f.numerator>0;}
+		bool positive()const{auto f=simple()?reduce():*this;return f.numerator>0;}
 
-		fraction& operator=(const fraction& f){
-			numerator=f.numerator;
-			denominator=f.denominator;
-			auto tmp=reduce();
+		template<std::signed_integral T>
+		requires std::constructible_from<integer,T>
+		fraction& operator=(const fraction<T>& f){
+			const auto& tmp=f.simple()?f.reduce():f;
 			numerator=tmp.numerator;
 			denominator=tmp.denominator;
 			return *this;
 		}
 
-		fraction& operator=(const integer& i){
+		template<std::signed_integral T>
+		requires std::constructible_from<integer,T>
+		fraction& operator=(fraction<T>&& f){
+			const auto& tmp=f.simple()?f.reduce():f;
+			numerator=tmp.numerator;
+			denominator=tmp.denominator;
+			f.numerator=0;
+			f.denominator=1;
+			return *this;
+		}
+
+		template<std::signed_integral Int>
+		requires std::constructible_from<integer,Int>
+		fraction& operator=(const Int& i){
 			numerator=i;
 			denominator=1;
 			return *this;
 		}
 
+		template<std::signed_integral Int>
+		requires std::constructible_from<integer,Int>
+		fraction& operator=(Int&& i){
+			numerator=i;
+			denominator=1;
+			i=0;
+			return *this;
+		}
+
 		bool operator==(const fraction& f)const{
-			auto tthis=reduce();
-			auto tf=f.reduce();
+			const auto& tthis=simple()?reduce():*this;
+			const auto& tf=f.simple()?f.reduce():f;
 			return tthis.numerator==tf.numerator and tthis.denominator==tf.denominator;
 		}
 
@@ -113,29 +139,29 @@ export namespace frt{
 		}
 
 		fraction operator+(const fraction& f)const{
-			auto pair=pass(f);//Because there has been 'reduce();f.reduce();' in function 'pass(f)', so there is no need to write it.
-			fraction result(pair.first.numerator+pair.second.numerator,pair.first.denominator);
-			return result.reduce();
+			auto [lhs,rhs]=pass(f);//Because there has been 'reduce();f.reduce();' in function 'pass(f)', so there is no need to write it.
+			fraction result(lhs.numerator+rhs.numerator,lhs.denominator/*both lhs and rhs are OK here*/);
+			return std::move(result.simple()?result.reduce():result);
 		}
 
 		fraction operator-(const fraction& f)const{
-			auto pair=pass(f);
-			fraction result(pair.first.numerator-pair.second.numerator,pair.first.denominator);
-			return result.reduce();
+			auto [lhs,rhs]=pass(f);
+			fraction result(lhs.numerator-rhs.numerator,lhs.denominator);
+			return std::move(result.simple()?result.reduce():result);
 		}
 
 		fraction operator*(const fraction& f)const{
-			auto tthis=reduce();
-			auto tf=f.reduce();
+			const auto& tthis=simple()?reduce():*this;
+			const auto& tf=f.simple()?f.reduce():f;
 			fraction result(tthis.numerator*tf.numerator,tthis.denominator*tf.denominator);
-			return result.reduce();
+			return std::move(result.simple()?result.reduce():result);
 		}
 
 		fraction operator/(const fraction& f)const{
-			auto tthis=reduce();
-			auto tf=f.reduce();
+			const auto& tthis=simple()?reduce():*this;
+			const auto& tf=f.simple()?f.reduce():f;
 			fraction result(tthis.numerator*tf.denominator,tthis.denominator*tf.numerator);
-			return result.reduce();
+			return std::move(result.simple()?result.reduce():result);
 		}
 
 		fraction& operator+=(const fraction& f){
@@ -154,8 +180,9 @@ export namespace frt{
 			return *this=*this/f;
 		}
 
-		operator long double()const{
-			return ((long double)dividend())/divisor();
+		template<std::floating_point real>
+		operator real()const{
+			return ((real)dividend())/divisor();
 		}
 
 		template<std::signed_integral Integer>
@@ -174,6 +201,12 @@ export namespace frt{
 
 	template<typename T>
 	fraction(const T&) -> fraction<T>;
+
+	template<typename T>
+	fraction(T&&,T&&) -> fraction<T>;
+
+	template<typename T>
+	fraction(T&&) -> fraction<T>;
 }
 
 export
